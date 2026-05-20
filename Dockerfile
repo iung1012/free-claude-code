@@ -1,0 +1,13 @@
+FROM ghcr.io/astral-sh/uv:python3.14-bookworm-slim
+
+WORKDIR /app
+
+COPY pyproject.toml uv.lock .python-version ./
+
+RUN uv sync --frozen --no-dev
+
+COPY . .
+
+EXPOSE 8082
+
+CMD ["uv", "run", "uvicorn", "server:app", "--host", "0.0.0.0", "--port", "8082"]
